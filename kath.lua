@@ -1,6 +1,6 @@
 ------------------------------------ Initialization ---------------------------------------
 local set = vim.opt
-local INITPATH = vim.cmd [[call stdpath("config")]]
+--local INITPATH = vim.cmd([[call stdpath("config")]]) .. '/nviminit'
 -------------------------------------- SETTINGS -------------------------------------------
 -- mixed line numbers
 set.number              = true
@@ -32,7 +32,7 @@ fu! Cabbrev(key, value)
     \ a:key, 1+len(a:key), Single_quote(a:value), Single_quote(a:key))
 endfu
 ]])
--- Helper function to call Cabbrec from lua
+-- Helper function to call Cabbrev from lua
 function cabbrev(from,to)
 	local arg = string.format([[call Cabbrev('%s', '%s')]],from,to)
     vim.cmd(arg)
@@ -54,17 +54,24 @@ vim.cmd [[inoremap <silent><expr> <Tab>
 -- Enter normal mode using escape in the terminal emulator
 vim.cmd [[:tnoremap <Esc> <C-\><C-n>]]
 
+-- Remove highlighting when using <CR>. Useful to press after a search.
 vim.keymap.set('n', '<CR>', ':noh<CR><CR>')
 
-cabbrev('init','e ~/.config/nvim/init.lua')
+-- Command shortcuts
+cabbrev('init','e .config/nvim/nviminit/kath.lua')
 cabbrev('T', 'NvimTreeToggle')
 
 -- Telescope mappings
-local builtin = require('telescope.builtin')
-vim.keymap.set('n', 'ff', builtin.find_files, {})
-vim.keymap.set('n', 'fg', builtin.live_grep, {})
-vim.keymap.set('n', 'fb', builtin.buffers, {})
-vim.keymap.set('n', 'fh', builtin.help_tags, {})
+if pcall(require,'telescope.builtin') then
+        print('Telescope loaded successfully!')
+	    local builtin = require('telescope.builtin')
+        vim.keymap.set('n', 'ff', builtin.find_files, {})
+        vim.keymap.set('n', 'fg', builtin.live_grep, {})
+        vim.keymap.set('n', 'fb', builtin.buffers, {})
+        vim.keymap.set('n', 'fh', builtin.help_tags, {})
+    else
+        print('Telescope did not load properly! Execute PackerSync to ensure the files are downloaded properly')
+    end
 
 -------------------------------------- PLUGINS --------------------------------------------
 
@@ -112,86 +119,97 @@ vim.g.haskell_indent_disable    = 1     -- To diable automatic indentation
 vim.g.haskell_indent_if         = 3     -- To determine indentation depth
 
 -- setup nvim-tree
-require('nvim-tree').setup()
+if pcall(require,'nvim-tree') then
+    require('nvim-tree').setup()
+    print('nvim-tree loaded successfully!')
+else
+    print('nvim-tree did not load properly! Execute PackerSync to ensure the files are downloaded properly')
+end
+
 
 -- setup tree-sitter
-require('treesitter-context').setup {
-    enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-    max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
-    trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-    min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
-    patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
-        -- For all filetypes
-        -- Note that setting an entry here replaces all other patterns for this entry.
-        -- By setting the 'default' entry below, you can control which nodes you want to
-        -- appear in the context window.
-        default = {
-            'class',
-            'function',
-            'method',
-            'for',
-            'while',
-            'if',
-            'switch',
-            'case',
+if pcall(require,'treesitter-context') then
+    require('treesitter-context').setup {
+        enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+        max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
+        trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+        min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+        patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
+            -- For all filetypes
+            -- Note that setting an entry here replaces all other patterns for this entry.
+            -- By setting the 'default' entry below, you can control which nodes you want to
+            -- appear in the context window.
+            default = {
+                'class',
+                'function',
+                'method',
+                'for',
+                'while',
+                'if',
+                'switch',
+                'case',
+            },
+            -- Patterns for specific filetypes
+            -- If a pattern is missing, *open a PR* so everyone can benefit.
+            tex = {
+                'chapter',
+                'section',
+                'subsection',
+                'subsubsection',
+            },
+            rust = {
+                'impl_item',
+                'struct',
+                'enum',
+            },
+            scala = {
+                'object_definition',
+            },
+            vhdl = {
+                'process_statement',
+                'architecture_body',
+                'entity_declaration',
+            },
+            markdown = {
+                'section',
+            },
+            elixir = {
+                'anonymous_function',
+                'arguments',
+                'block',
+                'do_block',
+                'list',
+                'map',
+                'tuple',
+                'quoted_content',
+            },
+            json = {
+                'pair',
+            },
+            yaml = {
+                'block_mapping_pair',
+            },
         },
-        -- Patterns for specific filetypes
-        -- If a pattern is missing, *open a PR* so everyone can benefit.
-        tex = {
-            'chapter',
-            'section',
-            'subsection',
-            'subsubsection',
+        exact_patterns = {
+            -- Example for a specific filetype with Lua patterns
+            -- Treat patterns.rust as a Lua pattern (i.e "^impl_item$" will
+            -- exactly match "impl_item" only)
+            -- rust = true,
         },
-        rust = {
-            'impl_item',
-            'struct',
-            'enum',
-        },
-        scala = {
-            'object_definition',
-        },
-        vhdl = {
-            'process_statement',
-            'architecture_body',
-            'entity_declaration',
-        },
-        markdown = {
-            'section',
-        },
-        elixir = {
-            'anonymous_function',
-            'arguments',
-            'block',
-            'do_block',
-            'list',
-            'map',
-            'tuple',
-            'quoted_content',
-        },
-        json = {
-            'pair',
-        },
-        yaml = {
-            'block_mapping_pair',
-        },
-    },
-    exact_patterns = {
-        -- Example for a specific filetype with Lua patterns
-        -- Treat patterns.rust as a Lua pattern (i.e "^impl_item$" will
-        -- exactly match "impl_item" only)
-        -- rust = true,
-    },
 
-    -- [!] The options below are exposed but shouldn't require your attention,
-    --     you can safely ignore them.
+        -- [!] The options below are exposed but shouldn't require your attention,
+        --     you can safely ignore them.
 
-    zindex = 20, -- The Z-index of the context window
-    mode = 'cursor',  -- Line used to calculate context. Choices: 'cursor', 'topline'
-    -- Separator between context and content. Should be a single character string, like '-'.
-    -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
-    separator = nil,
-}
+        zindex = 20, -- The Z-index of the context window
+        mode = 'cursor',  -- Line used to calculate context. Choices: 'cursor', 'topline'
+        -- Separator between context and content. Should be a single character string, like '-'.
+        -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
+        separator = nil,
+        }
+        print('treesitter.context loaded successfully!')
+    else
+        print('treesitter-context did not load properly! Execute PackerSync to ensure the files are downloaded properly')
+end
 -------------------------------------- COLOR SCEMES --------------------------------------------
 -- Tokyo Night
 -- 	vim.cmd [[colorscheme tokyonight]]

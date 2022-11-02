@@ -47,7 +47,7 @@ endfunction]]
 
 -- Use <tab> to for autocomplete
 vim.cmd [[inoremap <silent><expr> <Tab>
-      \ coc#pum#visible() ? coc#pum#next(1) :
+     \ coc#pum#visible() ? coc#pum#next(1) :
       \ CheckBackspace() ? "\<Tab>" :
       \ coc#refresh()]]
 
@@ -58,12 +58,13 @@ vim.cmd [[:tnoremap <Esc> <C-\><C-n>]]
 vim.keymap.set('n', '<CR>', ':noh<CR><CR>')
 
 -- Command shortcuts
-cabbrev('init','e .config/nvim/lua/nviminit/kath.lua')
+cabbrev('init','e ~/.config/nvim/lua/nviminit/kath.lua')
 cabbrev('T', 'NvimTreeToggle')
+cabbrev('sub', 'substitute')
+cabbrev('s', 'terminal')
 
 -- Telescope mappings
 if pcall(require,'telescope.builtin') then
-        print('Telescope loaded successfully!')
 	    local builtin = require('telescope.builtin')
         vim.keymap.set('n', 'ff', builtin.find_files, {})
         vim.keymap.set('n', 'fg', builtin.live_grep, {})
@@ -91,7 +92,7 @@ require('packer').startup(function(use)
         use { 
             'neoclide/coc.nvim',
             branch = 'release',
-            ft = {'vim', 'lua', 'racket', 'scm', 'hs', 'rs'}
+--            ft = {'vim', 'lua', 'racket', 'scm', 'hs', 'rs'}
             }
 		
 		use 'neovimhaskell/haskell-vim'
@@ -121,7 +122,6 @@ vim.g.haskell_indent_if         = 3     -- To determine indentation depth
 -- setup nvim-tree
 if pcall(require,'nvim-tree') then
     require('nvim-tree').setup()
-    print('nvim-tree loaded successfully!')
 else
     print('nvim-tree did not load properly! Execute PackerSync to ensure the files are downloaded properly')
 end
@@ -206,7 +206,6 @@ if pcall(require,'treesitter-context') then
         -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
         separator = nil,
         }
-        print('treesitter.context loaded successfully!')
     else
         print('treesitter-context did not load properly! Execute PackerSync to ensure the files are downloaded properly')
 end

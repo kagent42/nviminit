@@ -77,31 +77,34 @@ if pcall(require,'telescope.builtin') then
 -------------------------------------- PLUGINS --------------------------------------------
 
 -- setup packer and get plugins
-vim.cmd [[packadd packer.nvim]] 
-require('packer').startup(function(use)
-        use 'wbthomason/packer.nvim'
-		use 'folke/tokyonight.nvim'
-		use 'nvim-tree/nvim-tree.lua'
-		use 'nvim-tree/nvim-web-devicons'
-		use 'nvim-treesitter/nvim-treesitter'
-		use 'nvim-treesitter/nvim-treesitter-context'
-        use { 'nvim-telescope/telescope.nvim', 
-            tag = '0.1.0',
-            requires = 'nvim-lua/plenary.nvim'
-            }
-        use { 
-            'neoclide/coc.nvim',
-            branch = 'release',
---            ft = {'vim', 'lua', 'racket', 'scm', 'hs', 'rs'}
-            }
-		
-		use 'neovimhaskell/haskell-vim'
-		use 'alx741/vim-hindent'
-        
-        use 'Olical/conjure'
-		
-
-end)
+if pcall(vim.cmd,'packadd packer.nvim') then
+    require('packer').startup(function(use)
+            use 'wbthomason/packer.nvim'
+    		use 'folke/tokyonight.nvim'
+    		use 'nvim-tree/nvim-tree.lua'
+    		use 'nvim-tree/nvim-web-devicons'
+    		use 'nvim-treesitter/nvim-treesitter'
+    		use 'nvim-treesitter/nvim-treesitter-context'
+            use { 'nvim-telescope/telescope.nvim', 
+                tag = '0.1.0',
+                requires = 'nvim-lua/plenary.nvim'
+                }
+            use { 
+                'neoclide/coc.nvim',
+                branch = 'release',
+    --            ft = {'vim', 'lua', 'racket', 'scm', 'hs', 'rs'}
+                }
+    		
+    		use 'neovimhaskell/haskell-vim'
+    		use 'alx741/vim-hindent'
+            
+            use 'Olical/conjure'
+    		
+    
+    end)
+else
+    print('Packer did not load properly! Install Packer to ensure the files are downloaded properly')
+end
 
 -- haskell-vim settings
 vim.cmd [[syntax on]]

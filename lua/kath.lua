@@ -58,7 +58,7 @@ vim.cmd [[:tnoremap <Esc> <C-\><C-n>]]
 vim.keymap.set('n', '<CR>', ':noh<CR><CR>')
 
 -- Command shortcuts
-cabbrev('init','e ~/.config/nvim/lua/nviminit/kath.lua')
+cabbrev('init','e ~/.config/nvim/lua/kath.lua')
 cabbrev('T', 'NvimTreeToggle')
 cabbrev('sub', 'substitute')
 cabbrev('s', 'terminal')

@@ -49,8 +49,8 @@ local function save_profiles(threshold)
 end
 
 time([[Luarocks path setup]], true)
-local package_path_str = "/home/kath/.cache/nvim/packer_hererocks/2.1.0-beta3/share/lua/5.1/?.lua;/home/kath/.cache/nvim/packer_hererocks/2.1.0-beta3/share/lua/5.1/?/init.lua;/home/kath/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/luarocks/rocks-5.1/?.lua;/home/kath/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/luarocks/rocks-5.1/?/init.lua"
-local install_cpath_pattern = "/home/kath/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/lua/5.1/?.so"
+local package_path_str = "/home/kagent/.cache/nvim/packer_hererocks/2.1.0-beta3/share/lua/5.1/?.lua;/home/kagent/.cache/nvim/packer_hererocks/2.1.0-beta3/share/lua/5.1/?/init.lua;/home/kagent/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/luarocks/rocks-5.1/?.lua;/home/kagent/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/luarocks/rocks-5.1/?/init.lua"
+local install_cpath_pattern = "/home/kagent/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/lua/5.1/?.so"
 if not string.find(package.path, package_path_str, 1, true) then
   package.path = package.path .. ';' .. package_path_str
 end
@@ -75,68 +75,87 @@ time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
   ["coc.nvim"] = {
-    loaded = true,
-    path = "/home/kath/.local/share/nvim/site/pack/packer/start/coc.nvim",
+    loaded = false,
+    needs_bufread = false,
+    only_cond = false,
+    path = "/home/kagent/.local/share/nvim/site/pack/packer/opt/coc.nvim",
     url = "https://github.com/neoclide/coc.nvim"
   },
   conjure = {
     loaded = true,
-    path = "/home/kath/.local/share/nvim/site/pack/packer/start/conjure",
+    path = "/home/kagent/.local/share/nvim/site/pack/packer/start/conjure",
     url = "https://github.com/Olical/conjure"
+  },
+  fd = {
+    loaded = true,
+    path = "/home/kagent/.local/share/nvim/site/pack/packer/start/fd",
+    url = "https://github.com/sharkdp/fd"
   },
   ["haskell-vim"] = {
     loaded = true,
-    path = "/home/kath/.local/share/nvim/site/pack/packer/start/haskell-vim",
+    path = "/home/kagent/.local/share/nvim/site/pack/packer/start/haskell-vim",
     url = "https://github.com/neovimhaskell/haskell-vim"
   },
   ["nvim-tree.lua"] = {
     loaded = true,
-    path = "/home/kath/.local/share/nvim/site/pack/packer/start/nvim-tree.lua",
+    path = "/home/kagent/.local/share/nvim/site/pack/packer/start/nvim-tree.lua",
     url = "https://github.com/nvim-tree/nvim-tree.lua"
   },
   ["nvim-treesitter"] = {
     loaded = true,
-    path = "/home/kath/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
+    path = "/home/kagent/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
     url = "https://github.com/nvim-treesitter/nvim-treesitter"
   },
   ["nvim-treesitter-context"] = {
     loaded = true,
-    path = "/home/kath/.local/share/nvim/site/pack/packer/start/nvim-treesitter-context",
+    path = "/home/kagent/.local/share/nvim/site/pack/packer/start/nvim-treesitter-context",
     url = "https://github.com/nvim-treesitter/nvim-treesitter-context"
   },
   ["nvim-web-devicons"] = {
     loaded = true,
-    path = "/home/kath/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
+    path = "/home/kagent/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
     url = "https://github.com/nvim-tree/nvim-web-devicons"
   },
   ["packer.nvim"] = {
     loaded = true,
-    path = "/home/kath/.local/share/nvim/site/pack/packer/start/packer.nvim",
+    path = "/home/kagent/.local/share/nvim/site/pack/packer/start/packer.nvim",
     url = "https://github.com/wbthomason/packer.nvim"
   },
   ["plenary.nvim"] = {
     loaded = true,
-    path = "/home/kath/.local/share/nvim/site/pack/packer/start/plenary.nvim",
+    path = "/home/kagent/.local/share/nvim/site/pack/packer/start/plenary.nvim",
     url = "https://github.com/nvim-lua/plenary.nvim"
   },
   ["telescope.nvim"] = {
     loaded = true,
-    path = "/home/kath/.local/share/nvim/site/pack/packer/start/telescope.nvim",
+    path = "/home/kagent/.local/share/nvim/site/pack/packer/start/telescope.nvim",
     url = "https://github.com/nvim-telescope/telescope.nvim"
   },
   ["tokyonight.nvim"] = {
     loaded = true,
-    path = "/home/kath/.local/share/nvim/site/pack/packer/start/tokyonight.nvim",
+    path = "/home/kagent/.local/share/nvim/site/pack/packer/start/tokyonight.nvim",
     url = "https://github.com/folke/tokyonight.nvim"
   },
   ["vim-hindent"] = {
     loaded = true,
-    path = "/home/kath/.local/share/nvim/site/pack/packer/start/vim-hindent",
+    path = "/home/kagent/.local/share/nvim/site/pack/packer/start/vim-hindent",
     url = "https://github.com/alx741/vim-hindent"
   }
 }
 
 time([[Defining packer_plugins]], false)
+vim.cmd [[augroup packer_load_aucmds]]
+vim.cmd [[au!]]
+  -- Filetype lazy-loads
+time([[Defining lazy-load filetype autocommands]], true)
+vim.cmd [[au FileType hs ++once lua require("packer.load")({'coc.nvim'}, { ft = "hs" }, _G.packer_plugins)]]
+vim.cmd [[au FileType racket ++once lua require("packer.load")({'coc.nvim'}, { ft = "racket" }, _G.packer_plugins)]]
+vim.cmd [[au FileType lua ++once lua require("packer.load")({'coc.nvim'}, { ft = "lua" }, _G.packer_plugins)]]
+vim.cmd [[au FileType vim ++once lua require("packer.load")({'coc.nvim'}, { ft = "vim" }, _G.packer_plugins)]]
+vim.cmd [[au FileType rs ++once lua require("packer.load")({'coc.nvim'}, { ft = "rs" }, _G.packer_plugins)]]
+vim.cmd [[au FileType scm ++once lua require("packer.load")({'coc.nvim'}, { ft = "scm" }, _G.packer_plugins)]]
+time([[Defining lazy-load filetype autocommands]], false)
+vim.cmd("augroup END")
 
 _G._packer.inside_compile = false
 if _G._packer.needs_bufread == true then

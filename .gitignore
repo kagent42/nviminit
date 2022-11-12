@@ -1,2 +1,3 @@
 *.backup
+.backup.*
 .old_init.*

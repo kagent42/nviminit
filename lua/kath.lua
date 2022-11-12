@@ -25,10 +25,10 @@ set.smartindent         = true
 --For example:
 --call Cabbrev('W', 'w')	
 vim.cmd([[fu! Single_quote(str)
-  return "'" . substitute(copy(a:str), "'", "''", 'g') . "'"
+    return "'" . substitute(copy(a:str), "'", "''", 'g') . "'"
 endfu
 fu! Cabbrev(key, value)
-  exe printf('cabbrev <expr> %s (getcmdtype() == ":" && getcmdpos() <= %d) ? %s : %s',
+    exe printf('cabbrev <expr> %s (getcmdtype() == ":" && getcmdpos() <= %d) ? %s : %s',
     \ a:key, 1+len(a:key), Single_quote(a:value), Single_quote(a:key))
 endfu
 ]])
@@ -65,14 +65,14 @@ cabbrev('s', 'terminal')
 
 -- Telescope mappings
 if pcall(require,'telescope.builtin') then
-	    local builtin = require('telescope.builtin')
-        vim.keymap.set('n', 'ff', builtin.find_files, {})
-        vim.keymap.set('n', 'fg', builtin.live_grep, {})
-        vim.keymap.set('n', 'fb', builtin.buffers, {})
-        vim.keymap.set('n', 'fh', builtin.help_tags, {})
-    else
-        print('Telescope did not load properly! Execute PackerSync to ensure the files are downloaded properly')
-    end
+	local builtin = require('telescope.builtin')
+    vim.keymap.set('n', 'ff', builtin.find_files, {})
+    vim.keymap.set('n', 'fg', builtin.live_grep, {})
+    vim.keymap.set('n', 'fb', builtin.buffers, {})
+    vim.keymap.set('n', 'fh', builtin.help_tags, {})
+else
+    print('Telescope did not load properly! Execute PackerSync to ensure the files are downloaded properly')
+end
 
 -------------------------------------- PLUGINS --------------------------------------------
 
@@ -80,6 +80,8 @@ if pcall(require,'telescope.builtin') then
 if pcall(vim.cmd,'packadd packer.nvim') then
     require('packer').startup(function(use)
             use 'wbthomason/packer.nvim'
+            use { 'vim-airline/vim-airline',
+                requires = 'vim-airline/vim-airline-themes'}
     		use 'folke/tokyonight.nvim'
     		use 'nvim-tree/nvim-tree.lua'
     		use 'nvim-tree/nvim-web-devicons'
@@ -89,23 +91,21 @@ if pcall(vim.cmd,'packadd packer.nvim') then
                 tag = '0.1.0',
                 requires = 'nvim-lua/plenary.nvim'
                 }
-            use { 
-                'neoclide/coc.nvim',
+            use { 'neoclide/coc.nvim',
                 branch = 'release',
-    --            ft = {'vim', 'lua', 'racket', 'scm', 'hs', 'rs'}
                 }
-    		
     		use 'neovimhaskell/haskell-vim'
     		use 'alx741/vim-hindent'
-            
             use 'Olical/conjure'
-    		
-    
     end)
 else
     print('Packer did not load properly! Install Packer to ensure the files are downloaded properly')
 end
 
+-- airline
+vim.cmd [[let g:airline#extensions#whitespace#enabled = 0]]
+vim.g.airline_powerline_fonts = 1
+vim.g.airline_theme='zenburn'
 -- haskell-vim settings
 vim.cmd [[syntax on]]
 vim.cmd [[filetype plugin indent on]]
@@ -220,3 +220,4 @@ end
 --	vim.cmd [[colorscheme tokyonight-storm]]
 --	vim.cmd [[colorscheme tokyonight-day]]
 	vim.cmd [[colorscheme tokyonight-moon]]
+

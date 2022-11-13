@@ -219,5 +219,9 @@ end
 --	vim.cmd [[colorscheme tokyonight-night]]
 --	vim.cmd [[colorscheme tokyonight-storm]]
 --	vim.cmd [[colorscheme tokyonight-day]]
-	vim.cmd [[colorscheme tokyonight-moon]]
+if pcall(vim.cmd,[[colorscheme tokyonight-moon]]) then
+    vim.cmd [[echo "Successfully loaded Tokyo Night!"]]
+else
+    print('treesitter-context did not load properly! Execute PackerSync to ensure the files are downloaded properly')
+end
 

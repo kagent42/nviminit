@@ -222,6 +222,6 @@ end
 if pcall(vim.cmd,[[colorscheme tokyonight-moon]]) then
     vim.cmd [[echo "Successfully loaded Tokyo Night!"]]
 else
-    print('treesitter-context did not load properly! Execute PackerSync to ensure the files are downloaded properly')
+    print('tokyonight.nvim did not load properly! Execute PackerSync to ensure the files are downloaded properly')
 end
 
